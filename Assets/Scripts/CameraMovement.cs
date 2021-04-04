@@ -21,7 +21,6 @@ public class CameraMovement : MonoBehaviour
     {
         Vector3 pos = new Vector3(MapGenerator.mapWidth / 2 * 4, MapGenerator.mapHeight / 2 * 4, camera.transform.position.z);
         position = pos;
-        Debug.Log(pos);
         camera.transform.position = position;
         camera.fieldOfView = 140;
 

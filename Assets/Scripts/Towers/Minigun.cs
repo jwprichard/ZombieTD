@@ -30,12 +30,21 @@ public class Minigun : Building, BuildingInterface
     private void Update()
     {
 
-        BuildingScript.BuildingDictionary[gameObject].LoadGun(gameObject);
+        BuildingScript.BuildingDictionary[gameObject].Step();
 
     }
 
+    private void CheckTimer()
+    {
+        if (timer.Finished == true)
+        {
+            FireBullet();
+            timer = new SimpleTimer(1 / ROF * 1000, false);
+        }
+    }
+
     //Fires a bullet at the closest zombie
-    private void FireBullet(GameObject gameObject)
+    private void FireBullet()
     {
 
         GameObject bullet = Resources.Load<GameObject>("Objects/Bullet"); ;
@@ -110,18 +119,10 @@ public class Minigun : Building, BuildingInterface
     }
 
     //-------------------Building Interface Functions----------------//
-
-    //Fire's a bullet at the rate of fire
-    void BuildingInterface.LoadGun(GameObject gameObject)
+    void BuildingInterface.Step()
     {
-        if (timer.Finished == true)
-        {
-            FireBullet(gameObject);
-            timer = new SimpleTimer(1 / ROF * 1000, false);
-        }
+
     }
-
-
     //Return the cost of the Building
     int BuildingInterface.cost
     {

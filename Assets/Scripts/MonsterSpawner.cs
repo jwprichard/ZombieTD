@@ -38,7 +38,6 @@ public class MonsterSpawner : MonoBehaviour
             {
                 Timer = new SimpleTimer(Frequency * 1000, false);
                 Strength = 10*(GameController.time /5 );
-                Debug.Log(Strength);
             }
         }
     }

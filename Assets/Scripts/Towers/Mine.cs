@@ -24,20 +24,11 @@ public class Mine : Building, BuildingInterface
     private void Update()
     {
 
-        BuildingScript.BuildingDictionary[gameObject].LoadGun(gameObject);
+        BuildingScript.BuildingDictionary[gameObject].Step();
 
     }
 
-    //The Action made by the tower
-    private void Action()
-    {
-        GameController.AddMoney(50);
-    }
-
-    //-------------------Building Interface Functions----------------//
-
-    //Fire's a bullet at the rate of fire
-    void BuildingInterface.LoadGun(GameObject gameObject)
+    private void CheckTimer()
     {
         if (timer.Finished == true)
         {
@@ -46,7 +37,17 @@ public class Mine : Building, BuildingInterface
         }
     }
 
+    //The Action made by the tower
+    private void Action()
+    {
+        GameController.AdjustMoney(50);
+    }
 
+    //-------------------Building Interface Functions----------------//
+    void BuildingInterface.Step()
+    {
+
+    }
     //Return the cost of the Building
     int BuildingInterface.cost
     {

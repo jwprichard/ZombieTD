@@ -12,8 +12,9 @@ public class GameController : MonoBehaviour
     public static int Round = 1;
     public static float time = 0;
 
+    private string selectedBuilding = "Turret";
+
     private GameObject selectedObject;
-    private BuildingType buildingType = BuildingType.Mine;
 
     // Start is called before the first frame update
     void Start()
@@ -45,7 +46,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            BuildingScript.CreateBuilding(BuildingType.Base, pos1);
+            BuildingScript.CreateBuilding("Base", pos1);
             ZombieScript.CreateMonsterSpawner(pos2, 5, 10, zt);
         }
         
@@ -79,28 +80,20 @@ public class GameController : MonoBehaviour
     }
 
     //Set the selected object to build
-    public void SetSelected(int selected)
+    public void SetSelected(string selected)
     {
-        switch (selected)
-        {
-            case 0:
-                buildingType = BuildingType.Turret;
-                break;
-            case 1:
-                buildingType = BuildingType.Minigun;
-                break;
-            case 2:
-                buildingType = BuildingType.Mine;
-                break;
-            default:
-                break;
-        }
+        selectedBuilding = selected;
     }
 
     //Add money to the total money count
-    public static void AddMoney(int money)
+    public static void AdjustMoney(int money)
     {
         Money += money;
+    }
+
+    public static int GetMoney()
+    {
+        return Money;
     }
 
     //Check if the player has clicked
@@ -120,10 +113,7 @@ public class GameController : MonoBehaviour
                 pos.z = 20;
                 pos = Camera.main.ScreenToWorldPoint(pos);
                 ray = new Ray(pos, Vector3.down);
-                if (Money >= (int)buildingType)
-                {
-                    Money -= BuildingScript.CreateBuilding(buildingType, pos).GetComponent<BuildingInterface>().cost;
-                }
+                BuildingScript.CreateBuilding(selectedBuilding, pos);
             }
         
         }

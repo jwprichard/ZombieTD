@@ -36,7 +36,10 @@ public class Base : MonoBehaviour, BuildingInterface
 
 
     //------------Building Interface Functions---------------//
+    void BuildingInterface.Step()
+    {
 
+    }
     int BuildingInterface.cost
     {
         get
@@ -56,10 +59,5 @@ public class Base : MonoBehaviour, BuildingInterface
         {
             Health = value;
         }
-    }
-
-    void BuildingInterface.LoadGun(GameObject gameObject)
-    {
-        //nothing here
     }
 }

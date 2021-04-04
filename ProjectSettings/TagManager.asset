@@ -51,3 +51,12 @@ TagManager:
   - name: UI_front
     uniqueID: 3975160781
     locked: 0
+  - name: Zombies
+    uniqueID: 3607791375
+    locked: 0
+  - name: Buildings
+    uniqueID: 2983609757
+    locked: 0
+  - name: Projectiles
+    uniqueID: 2626242277
+    locked: 0

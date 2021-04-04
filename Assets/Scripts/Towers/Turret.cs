@@ -8,7 +8,6 @@ public class Turret : MonoBehaviour, BuildingInterface
 
     private GameObject GameObject;
 
-    //Static Variables
     private static int cost = 250;
     private static int Health = 50;
 
@@ -29,26 +28,36 @@ public class Turret : MonoBehaviour, BuildingInterface
     //Called once per frame
     private void Update()
     {
-
-        BuildingScript.BuildingDictionary[gameObject].LoadGun(gameObject);
+        Debug.Log($"Gameobject: {gameObject}");
+        BuildingScript.BuildingDictionary[gameObject].Step();
 
     }
 
+    private void CheckTimer()
+    {
+        Debug.Log($"The timer is - {timer}");
+        if (timer.Finished == true)
+        {
+            FireBullet();
+            timer = new SimpleTimer(1 / ROF * 1000, false);
+        }
+    }
+
     //Fire a bullet at the closest zombie
-    private void FireBullet(GameObject gameObject)
+    private void FireBullet()
     {
 
         GameObject bullet = Resources.Load<GameObject>("Objects/Bullet");
         Rigidbody2D rb;
-        Vector3 pos = gameObject.transform.GetChild(1).transform.position;
+        Vector3 pos = GameObject.transform.GetChild(1).transform.position;
 
-        if (FindZombie(gameObject) != null)
+        if (FindZombie(GameObject) != null)
         {
-            GameObject targetGO = FindZombie(gameObject);
+            GameObject targetGO = FindZombie(GameObject);
             bullet.GetComponent<Projectiles>().target = targetGO;
-            Vector3 target = FindZombie(gameObject).transform.position;
+            Vector3 target = FindZombie(GameObject).transform.position;
 
-            gameObject.transform.localRotation = Functions.LookAt(gameObject.transform.position, target);
+            GameObject.transform.localRotation = Functions.LookAt(GameObject.transform.position, target);
 
             if (Vector3.Distance(pos, target) < range)
             {
@@ -104,15 +113,9 @@ public class Turret : MonoBehaviour, BuildingInterface
     }
 
     //-------------------Building Interface Functions----------------//
-
-    //Fire's a bullet at the rate of fire
-    void BuildingInterface.LoadGun(GameObject gameObject)
+    void BuildingInterface.Step()
     {
-        if (timer.Finished == true)
-        {
-            FireBullet(gameObject);
-            timer = new SimpleTimer(1 / ROF * 1000, false);
-        }
+        CheckTimer();
     }
 
     //Return the cost of the Building

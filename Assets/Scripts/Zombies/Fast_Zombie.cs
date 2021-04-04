@@ -65,7 +65,7 @@ public class Fast_Zombie : MonoBehaviour, ZombieInterface
             if (Functions.CalculateDamage(gameObject,collision.gameObject))
             {
                 Destroy(gameObject);
-                GameController.AddMoney(value);
+                GameController.AdjustMoney(value);
             }
 
             Destroy(collision.gameObject);

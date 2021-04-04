@@ -109,8 +109,6 @@ using UnityEngine;
             damage = gameObject2.GetComponent<ZombieInterface>().Damage;
             hp -= damage;
             BuildingScript.BuildingDictionary[gameObject1].Health = hp;
-            Debug.Log(hp);
-            Debug.Log(damage);
         }
 
         if (hp <= 0)
