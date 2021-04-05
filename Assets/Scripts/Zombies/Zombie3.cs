@@ -65,7 +65,6 @@ public class Zombie3 : MonoBehaviour, ZombieInterface
             if (Functions.CalculateDamage(gameObject, collision.gameObject))
             {
                 Destroy(gameObject);
-                GameController.AdjustMoney(value);
             }
 
             Destroy(collision.gameObject);

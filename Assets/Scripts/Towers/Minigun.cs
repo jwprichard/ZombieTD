@@ -46,7 +46,7 @@ public class Minigun : Building, BuildingInterface
     //Fires a bullet at the closest zombie
     private void FireBullet()
     {
-
+        Debug.Log($"GameObject is: {gameObject}");
         GameObject bullet = Resources.Load<GameObject>("Objects/Bullet"); ;
         Rigidbody2D rb;
         Vector3 pos = gameObject.transform.GetChild(1).transform.position;
@@ -121,7 +121,7 @@ public class Minigun : Building, BuildingInterface
     //-------------------Building Interface Functions----------------//
     void BuildingInterface.Step()
     {
-
+        CheckTimer();
     }
     //Return the cost of the Building
     int BuildingInterface.cost

@@ -114,7 +114,7 @@ public class ArrowTower : MonoBehaviour, BuildingInterface
     //-------------------Building Interface Functions----------------//
     void BuildingInterface.Step()
     {
-
+        CheckTimer();
     }
 
     //Return the cost of the Building

@@ -85,13 +85,3 @@ public abstract class Building : MonoBehaviour
 {
     //asdfadsf
 }
-
-public enum BuildingType
-{
-    Base = 0,
-    Mine = 100,
-    Turret = 250,
-    Minigun = 750,
-    ArrowTower = 500,
-    Laser = 1000
-}

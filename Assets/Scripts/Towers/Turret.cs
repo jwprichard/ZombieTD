@@ -28,14 +28,11 @@ public class Turret : MonoBehaviour, BuildingInterface
     //Called once per frame
     private void Update()
     {
-        Debug.Log($"Gameobject: {gameObject}");
         BuildingScript.BuildingDictionary[gameObject].Step();
-
     }
 
     private void CheckTimer()
     {
-        Debug.Log($"The timer is - {timer}");
         if (timer.Finished == true)
         {
             FireBullet();

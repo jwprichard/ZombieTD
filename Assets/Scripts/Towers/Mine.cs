@@ -8,8 +8,8 @@ public class Mine : Building, BuildingInterface
 
     private GameObject GameObject;
 
-    private static int cost = 100;
-    private static int Health = 1;
+    private int cost = 100;
+    private int Health = 1;
     private float ROF = 1;
     SimpleTimer timer;
 
@@ -32,13 +32,13 @@ public class Mine : Building, BuildingInterface
     {
         if (timer.Finished == true)
         {
-            Action();
+            AddMoney();
             timer = new SimpleTimer(1 / ROF * 1000, false);
         }
     }
 
-    //The Action made by the tower
-    private void Action()
+    //Add money to the players count
+    private void AddMoney()
     {
         GameController.AdjustMoney(50);
     }
@@ -46,7 +46,7 @@ public class Mine : Building, BuildingInterface
     //-------------------Building Interface Functions----------------//
     void BuildingInterface.Step()
     {
-
+        CheckTimer();
     }
     //Return the cost of the Building
     int BuildingInterface.cost
