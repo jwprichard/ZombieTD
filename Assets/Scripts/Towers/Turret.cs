@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Turret : MonoBehaviour, BuildingInterface
+public class Turret : MonoBehaviour, IBuilding
 {
 
     private GameObject GameObject;
@@ -110,13 +110,13 @@ public class Turret : MonoBehaviour, BuildingInterface
     }
 
     //-------------------Building Interface Functions----------------//
-    void BuildingInterface.Step()
+    void IBuilding.Step()
     {
         CheckTimer();
     }
 
     //Return the cost of the Building
-    int BuildingInterface.cost
+    int IBuilding.cost
     {
         get
         {
@@ -124,7 +124,7 @@ public class Turret : MonoBehaviour, BuildingInterface
         }
     }
 
-    int BuildingInterface.Health
+    int IBuilding.Health
     {
         get
         {

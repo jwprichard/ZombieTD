@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface BuildingInterface
+public interface IBuilding
 {
     int cost { get; }
     int Health { get; set; }
@@ -12,9 +12,14 @@ public interface BuildingInterface
 
 public class BuildingScript : MonoBehaviour
 {
-    public static Dictionary<GameObject, BuildingInterface> BuildingDictionary = new Dictionary<GameObject, BuildingInterface>();
+    public static Dictionary<GameObject, IBuilding> BuildingDictionary = new Dictionary<GameObject, IBuilding>();
     static int idNum = 0;
     //static bool BaseBuilt = false;
+
+    public static void BuildingPreview(string type)
+    {
+        GameObject gameObject = Resources.Load<GameObject>("Objects/" + type);
+    }
 
     public static void CreateBuilding(string type, Vector3 position)
     {
@@ -22,7 +27,7 @@ public class BuildingScript : MonoBehaviour
         try
         {
             idNum++;
-            BuildingInterface building;
+            IBuilding building;
             GameObject gameObject;// = new GameObject();
             gameObject = Resources.Load<GameObject>("Objects/" + type);
             gameObject = Instantiate(gameObject);
@@ -31,8 +36,10 @@ public class BuildingScript : MonoBehaviour
             if (building.cost > GameController.GetMoney())
             {
                 Debug.Log($"Building: {type}, Cost: {building.cost}");
+                Destroy(gameObject);
                 throw new System.Exception("Not Enough Money!");
             }
+
             GameController.AdjustMoney(-building.cost);
             BuildingDictionary.Add(gameObject, building);
 
@@ -48,9 +55,9 @@ public class BuildingScript : MonoBehaviour
     }
 
     //Return the Building Interface from the given string name
-    public static BuildingInterface GetBuilding (string building, GameObject gameObject)
+    public static IBuilding GetBuilding (string building, GameObject gameObject)
     {
-        BuildingInterface Building;
+        IBuilding Building;
 
         switch (building)
         {
@@ -79,9 +86,4 @@ public class BuildingScript : MonoBehaviour
         }
         return Building;
     }
-}
-
-public abstract class Building : MonoBehaviour
-{
-    //asdfadsf
 }

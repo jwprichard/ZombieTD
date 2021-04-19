@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArrowTower : MonoBehaviour, BuildingInterface
+public class ArrowTower : MonoBehaviour, IBuilding
 {
 
     private GameObject GameObject;
@@ -112,13 +112,13 @@ public class ArrowTower : MonoBehaviour, BuildingInterface
     }
 
     //-------------------Building Interface Functions----------------//
-    void BuildingInterface.Step()
+    void IBuilding.Step()
     {
         CheckTimer();
     }
 
     //Return the cost of the Building
-    int BuildingInterface.cost
+    int IBuilding.cost
     {
         get
         {
@@ -127,7 +127,7 @@ public class ArrowTower : MonoBehaviour, BuildingInterface
     }
 
     //Return the health of he Building
-    int BuildingInterface.Health
+    int IBuilding.Health
     {
         get
         {

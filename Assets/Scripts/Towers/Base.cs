@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Base : MonoBehaviour, BuildingInterface
+public class Base : MonoBehaviour, IBuilding
 {
 
 
@@ -36,11 +36,11 @@ public class Base : MonoBehaviour, BuildingInterface
 
 
     //------------Building Interface Functions---------------//
-    void BuildingInterface.Step()
+    void IBuilding.Step()
     {
 
     }
-    int BuildingInterface.cost
+    int IBuilding.cost
     {
         get
         {
@@ -48,7 +48,7 @@ public class Base : MonoBehaviour, BuildingInterface
         }
     }
 
-    int BuildingInterface.Health
+    int IBuilding.Health
     {
         get
         {

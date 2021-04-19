@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mine : Building, BuildingInterface
+public class Mine : MonoBehaviour, IBuilding
 {
 
     private GameObject GameObject;
@@ -44,12 +44,12 @@ public class Mine : Building, BuildingInterface
     }
 
     //-------------------Building Interface Functions----------------//
-    void BuildingInterface.Step()
+    void IBuilding.Step()
     {
         CheckTimer();
     }
     //Return the cost of the Building
-    int BuildingInterface.cost
+    int IBuilding.cost
     {
         get
         {
@@ -57,7 +57,7 @@ public class Mine : Building, BuildingInterface
         }
     }
 
-    int BuildingInterface.Health
+    int IBuilding.Health
     {
         get
         {
