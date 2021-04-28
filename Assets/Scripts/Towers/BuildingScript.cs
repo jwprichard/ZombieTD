@@ -21,6 +21,7 @@ public class BuildingScript : MonoBehaviour
         GameObject gameObject = Resources.Load<GameObject>("Objects/" + type);
         gameObject = Instantiate(gameObject);
         gameObject.name = type.ToString() + idNum;
+        gameObject.tag = "Preview";
         return gameObject;
     }
 

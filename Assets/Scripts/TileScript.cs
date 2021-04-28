@@ -11,8 +11,8 @@ public class TileScript : MonoBehaviour
     {
         idNum++;
         GameObject gameObject = Resources.Load<GameObject>("Objects/" + type);
-        //Tile tile = new Tile(gameObject);
         GameObject newTile = Instantiate(gameObject);
+        newTile.transform.position = new Vector3(location[0], location[1], 0);
         Tile tile = new Tile(newTile, type, location, idNum);
         TileDictionary.Add(newTile, tile);
         return newTile;

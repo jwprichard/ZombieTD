@@ -44,7 +44,7 @@ public class ZombieScript : MonoBehaviour
         ZombieDictionary.Add(gameObject, zombie);
 
 
-        Vector3 newPos = new Vector3(position.x, position.y, 0.2f);
+        Vector3 newPos = new Vector3(position.x, position.y, 0);
 
         gameObject.transform.position = newPos;
         return gameObject;

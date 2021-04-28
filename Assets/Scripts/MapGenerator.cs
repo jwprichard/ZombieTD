@@ -3,32 +3,56 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class MapGenerator : MonoBehaviour
+public static class MapGenerator
 {
-    public Tilemap tileMap;
-    private RuleTile grassTile;
-    private RuleTile mountainTile;
-    private int[,] MapArray;
+    public static Tilemap tileMap;
+    private static RuleTile grassTile;
+    private static RuleTile mountainTile;
+    private static int[,] mapArray;
     public static int mapWidth;
     public static int mapHeight;
 
-    public int[,] GetMap()
+    public static int[,] GetMap()
     {
-        return MapArray;
+        return mapArray;
     }
 
-    public void CreateTileMap()
+    public static void CreateMap(int width=30, int height=30)
     {
-        mapWidth = 30;
-        mapHeight = 30;
-        //Vector3Int pos = new Vector3Int(1, 1, 1);
-        grassTile =  Resources.Load<RuleTile>("Tiles/Grass_Tile");
+        mapWidth = width;
+        mapHeight = height;
+        tileMap = CreateTileMap();
+        grassTile = Resources.Load<RuleTile>("Tiles/Grass_Tile");
         mountainTile = Resources.Load<RuleTile>("Tiles/Mountain_Tile");
-        SetTiles(GenerateMapArray());
-        
+        mapArray = GenerateMapArray();
+        SetTiles(mapArray);
     }
 
-    private int[,] GenerateMapArray()
+    
+    /* 
+     * Creates a TileMap and adds it
+     * to the GameController as a child
+     */
+    public static Tilemap CreateTileMap()
+    {
+        var go = new GameObject("Grid");
+        var grid = go.AddComponent<Grid>();
+        go.transform.SetParent(Object.FindObjectOfType<GameController>().transform);
+
+        var gameObject = new GameObject("TileMap");
+        gameObject.transform.localScale = new Vector3(1, 1, 0);
+        var tileMap = gameObject.AddComponent<Tilemap>();
+        var renderer = gameObject.AddComponent<TilemapRenderer>();
+
+        tileMap.tileAnchor = new Vector3(0, 0, 0);
+        gameObject.transform.SetParent(go.transform);
+        renderer.sortingLayerName = "Background";
+        
+
+        return tileMap;
+    }
+
+    private static int[,] GenerateMapArray()
     {
         int[,] array = new int[mapWidth, mapHeight];
 
@@ -49,11 +73,10 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        MapArray = array;
         return array;
     }
 
-    private int[,] MakeSimpleMap(int[,] arrayMap)
+    private static int[,] MakeSimpleMap(int[,] arrayMap)
     {
         //int numOfPoints = Random.Range(2, 7);
         int numOfPoints = 4;
@@ -82,7 +105,7 @@ public class MapGenerator : MonoBehaviour
     }
 
     //Make some walls protrude from the outer wall
-    private int[,] MakeStructures(int[,] arrayMap)
+    private static int[,] MakeStructures(int[,] arrayMap)
     {
         int x = Random.Range(3, mapWidth / 5);
         int y = Random.Range(3, mapHeight);
@@ -115,7 +138,7 @@ public class MapGenerator : MonoBehaviour
 
     }
 
-    private void SetTiles(int[,] arrayMap)
+    private static void SetTiles(int[,] arrayMap)
     {
         for (int i = 0; i < mapWidth; i++)
         {
@@ -124,11 +147,13 @@ public class MapGenerator : MonoBehaviour
                 RuleTile tile = CheckCell(arrayMap[i, j]);
                 Vector3Int pos = new Vector3Int(i, j, 0);
                 tileMap.SetTile(pos, tile);
+                SetupTile("Red", i, j);
+
             }
         }
     }
     
-    private RuleTile CheckCell(int cell)
+    private static RuleTile CheckCell(int cell)
     {
         if (cell == 1)
         {
@@ -144,11 +169,11 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    static GameObject setupTile(string type)
+    static GameObject SetupTile(string type, int location_1, int location_2)
     {
         int[] loc = new int[2];
-        loc[0] = 1;
-        loc[1] = 1;
+        loc[0] = location_1;
+        loc[1] = location_2;
         GameObject tile = TileScript.CreateTile(type, loc);
         return tile;
     }

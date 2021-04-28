@@ -95,21 +95,16 @@ using UnityEngine;
        
     }
 
-    public static GameObject FindTile()
+    public static Vector3 FindTilePos()
     {
-        GameObject tile = new GameObject();
-        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Ray ray = new Ray(pos, Vector3.down);
-        RaycastHit hit;
-        Debug.Log($"Origin of ray: {ray.origin}");
-        Debug.Log($"Direction of ray: {ray.direction}");
-        if(Physics.Raycast(ray, out hit))
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            Debug.Log("HIT");
+            Vector3 pos = hit.transform.position;
+            return pos;        
         }
-        
 
-        return tile;
+        return new Vector3(0, 0, 0);
     }
 
     //Calculate the damage made by the game object
