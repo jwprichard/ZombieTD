@@ -8,8 +8,14 @@ public class MapGenerator : MonoBehaviour
     public Tilemap tileMap;
     private RuleTile grassTile;
     private RuleTile mountainTile;
+    private int[,] MapArray;
     public static int mapWidth;
     public static int mapHeight;
+
+    public int[,] GetMap()
+    {
+        return MapArray;
+    }
 
     public void CreateTileMap()
     {
@@ -43,6 +49,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
+        MapArray = array;
         return array;
     }
 
@@ -135,7 +142,7 @@ public class MapGenerator : MonoBehaviour
         {
             return null;
         }
-    } 
+    }
 
     static GameObject setupTile(string type)
     {
@@ -145,5 +152,5 @@ public class MapGenerator : MonoBehaviour
         GameObject tile = TileScript.CreateTile(type, loc);
         return tile;
     }
-    
+
 }

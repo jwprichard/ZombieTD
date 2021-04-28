@@ -12,9 +12,9 @@ public class GameController : MonoBehaviour
     public static int Round = 1;
     public static float time = 0;
 
-    private string selectedBuilding = "Turret";
+    //private string selectedBuilding = "Turret";
 
-    private GameObject selectedObject;
+    private GameObject selectedBuilding;
 
     // Start is called before the first frame update
     void Start()
@@ -46,8 +46,10 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            BuildingScript.CreateBuilding("Base", pos1);
+            selectedBuilding = BuildingScript.BuildingPreview("Base");
+            BuildingScript.CreateBuilding(selectedBuilding, pos1);
             ZombieScript.CreateMonsterSpawner(pos2, 5, 10, zt);
+            selectedBuilding = BuildingScript.BuildingPreview("Turret");
         }
         
     }
@@ -62,6 +64,7 @@ public class GameController : MonoBehaviour
         {
             GameOver();
         }
+        //UpdateBuildingPreviewPosition();
     }
 
     //Updates the values in the game bar
@@ -70,6 +73,13 @@ public class GameController : MonoBehaviour
         UI.UpdateCash(Money);
         UI.UpdateRound(Round);
         UI.UpdateTime((int)time);
+    }
+
+    private void UpdateBuildingPreviewPosition()
+    {
+        Vector3 pos = Functions.GetMouseScreenPosition();
+        selectedBuilding.transform.position = new Vector3(pos.x, pos.y, 0);
+        Debug.Log($"Mouse Position: {selectedBuilding.transform.position}");
     }
 
     //Displays game over text and quits the application
@@ -82,7 +92,8 @@ public class GameController : MonoBehaviour
     //Set the selected object to build
     public void SetSelected(string selected)
     {
-        selectedBuilding = selected;
+        //selectedBuilding = selected;
+        selectedBuilding = BuildingScript.BuildingPreview(selected);
     }
 
     //Add money to the total money count
@@ -108,6 +119,9 @@ public class GameController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 pos = Input.mousePosition;
+
+            Functions.FindTile();
+
             if (pos.y > 140)
             {
                 pos.z = 20;

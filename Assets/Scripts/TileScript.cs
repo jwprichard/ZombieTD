@@ -7,13 +7,13 @@ public class TileScript : MonoBehaviour
     public static Dictionary<GameObject, Tile> TileDictionary = new Dictionary<GameObject, Tile>();
     static int idNum = 0;
 
-    public static GameObject CreateTile(string type, int[] loaction)
+    public static GameObject CreateTile(string type, int[] location)
     {
         idNum++;
         GameObject gameObject = Resources.Load<GameObject>("Objects/" + type);
         //Tile tile = new Tile(gameObject);
         GameObject newTile = Instantiate(gameObject);
-        Tile tile = new Tile(newTile, type, loaction, idNum);
+        Tile tile = new Tile(newTile, type, location, idNum);
         TileDictionary.Add(newTile, tile);
         return newTile;
     }

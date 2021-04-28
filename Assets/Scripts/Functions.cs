@@ -9,7 +9,7 @@ using UnityEngine;
     {
 
         //Find the rotation of z to look from p1 to p2
-        public static Quaternion LookAt(Vector3 p1, Vector3 p2)
+    public static Quaternion LookAt(Vector3 p1, Vector3 p2)
         {
 
             float angle = 0;
@@ -88,6 +88,29 @@ using UnityEngine;
             Quaternion rotation = Quaternion.Euler(0, 0, angle);
             return rotation;
         }
+
+    public static Vector3 GetMouseScreenPosition()
+    {
+        return new Vector3();
+       
+    }
+
+    public static GameObject FindTile()
+    {
+        GameObject tile = new GameObject();
+        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Ray ray = new Ray(pos, Vector3.down);
+        RaycastHit hit;
+        Debug.Log($"Origin of ray: {ray.origin}");
+        Debug.Log($"Direction of ray: {ray.direction}");
+        if(Physics.Raycast(ray, out hit))
+        {
+            Debug.Log("HIT");
+        }
+        
+
+        return tile;
+    }
 
     //Calculate the damage made by the game object
     public static bool CalculateDamage(GameObject gameObject1, GameObject gameObject2)

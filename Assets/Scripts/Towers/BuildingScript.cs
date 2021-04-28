@@ -16,26 +16,29 @@ public class BuildingScript : MonoBehaviour
     static int idNum = 0;
     //static bool BaseBuilt = false;
 
-    public static void BuildingPreview(string type)
+    public static GameObject BuildingPreview(string type)
     {
         GameObject gameObject = Resources.Load<GameObject>("Objects/" + type);
+        gameObject = Instantiate(gameObject);
+        gameObject.name = type.ToString() + idNum;
+        return gameObject;
     }
 
-    public static void CreateBuilding(string type, Vector3 position)
+    public static void CreateBuilding(GameObject gameObject, Vector3 position)
     {
 
         try
         {
             idNum++;
             IBuilding building;
-            GameObject gameObject;// = new GameObject();
-            gameObject = Resources.Load<GameObject>("Objects/" + type);
-            gameObject = Instantiate(gameObject);
-            gameObject.name = type.ToString() + idNum;
-            building = GetBuilding(type, gameObject);
+            //GameObject gameObject;// = new GameObject();
+            //gameObject = Resources.Load<GameObject>("Objects/" + type);
+            //gameObject = Instantiate(gameObject);
+            //gameObject.name = type.ToString() + idNum;
+            building = GetBuilding(gameObject.name, gameObject);
             if (building.cost > GameController.GetMoney())
             {
-                Debug.Log($"Building: {type}, Cost: {building.cost}");
+                Debug.Log($"Building: {gameObject.name}, Cost: {building.cost}");
                 Destroy(gameObject);
                 throw new System.Exception("Not Enough Money!");
             }
