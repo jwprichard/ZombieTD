@@ -7,15 +7,16 @@ public class TileScript : MonoBehaviour
     public static Dictionary<GameObject, Tile> TileDictionary = new Dictionary<GameObject, Tile>();
     static int idNum = 0;
 
-    public static GameObject CreateTile(string type, int[] location)
+    public static GameObject CreateTile(string type, int[] location, GameObject parent)
     {
         idNum++;
         GameObject gameObject = Resources.Load<GameObject>("Objects/" + type);
-        GameObject newTile = Instantiate(gameObject);
-        newTile.transform.position = new Vector3(location[0], location[1], 0);
-        Tile tile = new Tile(newTile, type, location, idNum);
-        TileDictionary.Add(newTile, tile);
-        return newTile;
+        gameObject = Instantiate(gameObject);
+        gameObject.transform.position = new Vector3(location[0], location[1], 0);
+        gameObject.transform.SetParent(parent.transform);
+        Tile tile = new Tile(gameObject, type, location, idNum);
+        TileDictionary.Add(gameObject, tile);
+        return gameObject;
     }
 
     public class Tile
@@ -31,7 +32,6 @@ public class TileScript : MonoBehaviour
             Type = type;
             GameObject.name = Type + "_" + id;
             Location = location;
-            //GameObject.GetComponent<SpriteRenderer>().sprite = GetSprite(this);
         }
 
     }

@@ -19,7 +19,7 @@ public class CameraMovement : MonoBehaviour
 
     public static void UpdatePosition()
     {
-        Vector3 pos = new Vector3(MapGenerator.mapWidth / 2 * 4, MapGenerator.mapHeight / 2 * 4, camera.transform.position.z);
+        Vector3 pos = new Vector3(MapGenerator.GetMap().GetLength(0) / 2 * 4, MapGenerator.GetMap().GetLength(1) / 2 * 4, camera.transform.position.z);
         position = pos;
         camera.transform.position = position;
         camera.fieldOfView = 140;

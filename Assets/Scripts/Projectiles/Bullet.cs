@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour, Projectiles
 
     private void Update()
     {
-        Debug.Log(target);
+        
     }
 
     GameObject Projectiles.target

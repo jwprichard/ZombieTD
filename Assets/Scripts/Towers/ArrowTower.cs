@@ -6,8 +6,6 @@ using UnityEngine;
 public class ArrowTower : MonoBehaviour, IBuilding
 {
 
-    private GameObject GameObject;
-
     //Static Variables
     private static int cost = 250;
     private static int Health = 100;
@@ -18,19 +16,15 @@ public class ArrowTower : MonoBehaviour, IBuilding
     private SimpleTimer timer;
 
     //Constructor for the tower
-    public ArrowTower(GameObject gameObject)
+    public ArrowTower()
     {
-        GameObject = gameObject;
         timer = new SimpleTimer(1 / ROF * 1000, false);
-        Debug.Log(timer);
     }
 
     //Called once per frame
     private void Update()
     {
-
-        BuildingScript.BuildingDictionary[gameObject].Step();
-
+        CheckTimer();
     }
 
     private void CheckTimer()

@@ -6,7 +6,7 @@ using UnityEngine;
 public class Turret : MonoBehaviour, IBuilding
 {
 
-    private GameObject GameObject;
+    //private GameObject GameObject;
 
     private static int cost = 250;
     private static int Health = 50;
@@ -19,16 +19,15 @@ public class Turret : MonoBehaviour, IBuilding
     SimpleTimer timer;
 
     //Constructor for the tower
-    public Turret(GameObject gameObject)
+    public Turret()
     {
-        GameObject = gameObject;
         timer = new SimpleTimer(1 / ROF * 1000, true);
     }
 
     //Called once per frame
     private void Update()
     {
-        BuildingScript.BuildingDictionary[gameObject].Step();
+        CheckTimer();
     }
 
     private void CheckTimer()
@@ -46,15 +45,15 @@ public class Turret : MonoBehaviour, IBuilding
 
         GameObject bullet = Resources.Load<GameObject>("Objects/Bullet");
         Rigidbody2D rb;
-        Vector3 pos = GameObject.transform.GetChild(1).transform.position;
+        Vector3 pos = gameObject.transform.GetChild(0).transform.position;
 
-        if (FindZombie(GameObject) != null)
+        if (FindZombie(gameObject) != null)
         {
-            GameObject targetGO = FindZombie(GameObject);
+            GameObject targetGO = FindZombie(gameObject);
             bullet.GetComponent<Projectiles>().target = targetGO;
-            Vector3 target = FindZombie(GameObject).transform.position;
+            Vector3 target = FindZombie(gameObject).transform.position;
 
-            GameObject.transform.localRotation = Functions.LookAt(GameObject.transform.position, target);
+            gameObject.transform.localRotation = Functions.LookAt(gameObject.transform.position, target);
 
             if (Vector3.Distance(pos, target) < range)
             {
@@ -112,7 +111,7 @@ public class Turret : MonoBehaviour, IBuilding
     //-------------------Building Interface Functions----------------//
     void IBuilding.Step()
     {
-        CheckTimer();
+        //CheckTimer();
     }
 
     //Return the cost of the Building

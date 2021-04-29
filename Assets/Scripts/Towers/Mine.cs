@@ -6,7 +6,7 @@ using UnityEngine;
 public class Mine : MonoBehaviour, IBuilding
 {
 
-    private GameObject GameObject;
+    //private GameObject GameObject;
 
     private int cost = 100;
     private int Health = 1;
@@ -14,18 +14,15 @@ public class Mine : MonoBehaviour, IBuilding
     SimpleTimer timer;
 
     //Contructor for the Mine
-    public Mine(GameObject gameObject)
+    public Mine()
     {
-        GameObject = gameObject;
         timer = new SimpleTimer(1 / ROF * 1000, true);
     }
 
     //Called once per frame
     private void Update()
     {
-
-        BuildingScript.BuildingDictionary[gameObject].Step();
-
+        CheckTimer();
     }
 
     private void CheckTimer()

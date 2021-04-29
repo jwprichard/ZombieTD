@@ -6,8 +6,6 @@ using UnityEngine;
 public class Minigun : MonoBehaviour, IBuilding
 {
 
-    private GameObject GameObject;
-
     //Static variables
     private static int cost = 500;
     private static int Health = 50;
@@ -20,18 +18,15 @@ public class Minigun : MonoBehaviour, IBuilding
     SimpleTimer timer;
 
     //Constructor for the tower
-    public Minigun(GameObject gameObject)
+    public Minigun()
     {
-        GameObject = gameObject;
         timer = new SimpleTimer(1 / ROF * 1000, true);
     }
 
     //Called once per frame
     private void Update()
     {
-
-        BuildingScript.BuildingDictionary[gameObject].Step();
-
+        CheckTimer();
     }
 
     private void CheckTimer()
@@ -49,8 +44,8 @@ public class Minigun : MonoBehaviour, IBuilding
         Debug.Log($"GameObject is: {gameObject}");
         GameObject bullet = Resources.Load<GameObject>("Objects/Bullet"); ;
         Rigidbody2D rb;
-        Vector3 pos = gameObject.transform.GetChild(1).transform.position;
-        Vector3 pos2 = gameObject.transform.GetChild(2).transform.position;
+        Vector3 pos = gameObject.transform.GetChild(0).transform.position;
+        Vector3 pos2 = gameObject.transform.GetChild(1).transform.position;
 
         if (FindZombie(gameObject) != null)
         {

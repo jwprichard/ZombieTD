@@ -28,16 +28,16 @@ public class GameController : MonoBehaviour
     void SetupLocations()
     {
         //Base
-        int x = Functions.RandomNumber(10, MapGenerator.mapWidth * 4 - 10);
-        int y = Functions.RandomNumber(10, MapGenerator.mapHeight * 4 - 10);
+        int x = Functions.RandomNumber(10, MapGenerator.GetMap().GetLength(0) * 4 - 10);
+        int y = Functions.RandomNumber(10, MapGenerator.GetMap().GetLength(1) * 4 - 10);
         Vector3 pos1 = new Vector3(x, y, -1);
         //Spawner
         ZombieType[] zt = new ZombieType[3];
         zt[0] = ZombieType.Slow_Zombie;
         zt[1] = ZombieType.Fast_Zombie;
         zt[2] = ZombieType.Zombie3;
-        x = Functions.RandomNumber(10, MapGenerator.mapWidth * 4 - 10);
-        y = Functions.RandomNumber(10, MapGenerator.mapHeight * 4 - 10);
+        x = Functions.RandomNumber(10, MapGenerator.GetMap().GetLength(0) * 4 - 10);
+        y = Functions.RandomNumber(10, MapGenerator.GetMap().GetLength(1) * 4 - 10);
         Vector3 pos2 = new Vector3(x, y, -1);
 
         //if (Functions.GetDistance(pos1, pos2) < 100)
@@ -83,7 +83,6 @@ public class GameController : MonoBehaviour
         {
             Vector3 pos = Functions.FindTilePos();
             selectedBuilding.transform.position = new Vector3(pos.x, pos.y, 0);
-            Debug.Log($"Mouse Position: {selectedBuilding.transform.position}");
         }
     }
 
@@ -116,10 +115,12 @@ public class GameController : MonoBehaviour
     {
 
         //On left click
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && selectedBuilding != null)
         {
             Vector3 pos = Functions.FindTilePos();
-            BuildingScript.CreateBuilding(selectedBuilding, pos);
+            BuildingScript.CreateBuilding(selectedBuilding.name, pos);
+            Destroy(selectedBuilding);
+            selectedBuilding = null;
         }
 
         //On right click
@@ -128,8 +129,6 @@ public class GameController : MonoBehaviour
             Vector3 pos = Input.mousePosition;
             pos.z = 20;
             pos = Camera.main.ScreenToWorldPoint(pos);
-            Debug.Log($"Mouse Pos: {pos}");
-            //ray = new Ray(pos, Vector3.down);
             ZombieScript.CreateZombie(ZombieType.Fast_Zombie, pos);
         }
         if (Input.GetMouseButtonDown(2))
@@ -137,7 +136,6 @@ public class GameController : MonoBehaviour
             Vector3 pos = Input.mousePosition;
             pos.z = 20;
             pos = Camera.main.ScreenToWorldPoint(pos);
-            Debug.Log($"Mouse Pos: {pos}");
             ZombieType[] zt = new ZombieType[2];
             zt[0] = ZombieType.Fast_Zombie;
             zt[1] = ZombieType.Slow_Zombie;
@@ -150,6 +148,7 @@ public class GameController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            Destroy(selectedBuilding);
             selectedBuilding = null;
         }
     }
