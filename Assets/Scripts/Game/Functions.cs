@@ -89,22 +89,17 @@ using UnityEngine;
             return rotation;
         }
 
-    public static Vector3 GetMouseScreenPosition()
+    public static TileScript.Tile FindTile()
     {
-        return new Vector3();
-       
-    }
 
-    public static Vector3 FindTilePos()
-    {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            Vector3 pos = hit.transform.position;
-            return pos;        
+            var tile = hit.transform.GetComponent<TileScript.Tile>();
+            return tile;        
         }
 
-        return new Vector3(0, 0, 0);
+        return null;
     }
 
     //Calculate the damage made by the game object
@@ -141,9 +136,15 @@ using UnityEngine;
 
     public static int RandomNumber(int min, int max)
     {
-        int num = UnityEngine.Random.Range(min, max);
+        int[] rNumbers = new int[60];
 
-        return num;
+        //var rnd = new System.Random(DateTime.Now.Millisecond);
+        for(int i = 0; i < 60; i++)
+        {
+            rNumbers[i] = GameController.rnd.Next(min, max);
+        }
+
+        return rNumbers[DateTime.Now.Second-1];
     }
 
     public static float GetDistance(Vector3 pos1, Vector3 pos2)

@@ -8,8 +8,10 @@ public class Mine : MonoBehaviour, IBuilding
 
     //private GameObject GameObject;
 
-    private int cost = 100;
+    private int Cost = 100;
     private int Health = 1;
+    private int Range = 0;
+
     private float ROF = 1;
     SimpleTimer timer;
 
@@ -41,16 +43,20 @@ public class Mine : MonoBehaviour, IBuilding
     }
 
     //-------------------Building Interface Functions----------------//
-    void IBuilding.Step()
+    int[] IBuilding.GetStats()
     {
-        CheckTimer();
+        int[] stats = new int[2];
+        stats[0] = Health;
+        stats[1] = Range;
+
+        return stats;
     }
     //Return the cost of the Building
     int IBuilding.cost
     {
         get
         {
-            return cost;
+            return Cost;
         }
     }
 

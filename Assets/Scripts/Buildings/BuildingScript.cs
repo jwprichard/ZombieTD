@@ -2,13 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IBuilding
-{
-    int cost { get; }
-    int Health { get; set; }
-    void Step();
-}
-
 
 public class BuildingScript : MonoBehaviour
 {
@@ -25,7 +18,7 @@ public class BuildingScript : MonoBehaviour
         return gameObject;
     }
 
-    public static void CreateBuilding(string type, Vector3 pos)
+    public static void CreateBuilding(string type, TileScript.Tile tile)
     {
 
         try
@@ -46,7 +39,9 @@ public class BuildingScript : MonoBehaviour
             GameController.AdjustMoney(-building.cost);
             BuildingDictionary.Add(go, building);
 
-            go.transform.position = pos;
+            tile.SetBuilding(building);
+
+            go.transform.position = tile.transform.position;
         }
         catch (System.Exception e)
         {
@@ -58,33 +53,15 @@ public class BuildingScript : MonoBehaviour
     //Return the Building Interface from the given string name
     public static IBuilding GetBuilding (string building, GameObject gameObject)
     {
-        IBuilding Building;
-
-        switch (building)
+        IBuilding Building = building switch
         {
-            case "Base":
-
-                {
-                    Building = gameObject.AddComponent<Base>();
-                    //BaseBuilt = true;
-                }
-                break;
-            case "Mine":
-                Building = gameObject.AddComponent<Mine>();
-                break;
-            case "Turret":
-                Building = gameObject.AddComponent<Turret>();
-                break;
-            case "Minigun":
-                Building = gameObject.AddComponent<Minigun>();
-                break;
-            case "ArrowTower":
-                Building = gameObject.AddComponent<ArrowTower>();
-                break;
-            default:
-                throw new System.Exception($"Building '{building}' not found!");
-
-        }
+            "Base" => gameObject.AddComponent<Base>(),
+            "Mine" => gameObject.AddComponent<Mine>(),
+            "Turret" => gameObject.AddComponent<Turret>(),
+            "Minigun" => gameObject.AddComponent<Minigun>(),
+            "ArrowTower" => gameObject.AddComponent<ArrowTower>(),
+            _ => throw new System.Exception($"Building '{building}' not found!"),
+        };
         return Building;
     }
 }

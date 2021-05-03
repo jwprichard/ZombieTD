@@ -7,6 +7,8 @@ public class GameController : MonoBehaviour
     public UserInterface UI;
     public static bool gameOver = false;
 
+    public static System.Random rnd = new System.Random();
+
     private static int Money = 500;
     public static int Round = 1;
     public static float time = 0;
@@ -18,41 +20,10 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MapGenerator.CreateMap();
+        MapGenerator.CreateMap(30, 30, 0);
         Camera.main.transform.position = new Vector3(0, 0, -20);
         CameraMovement.UpdatePosition();
-        //SetupLocations();
-    }
-
-    //Sets up the start locations of the spawner and the base
-    void SetupLocations()
-    {
-        //Base
-        int x = Functions.RandomNumber(10, MapGenerator.GetMap().GetLength(0) * 4 - 10);
-        int y = Functions.RandomNumber(10, MapGenerator.GetMap().GetLength(1) * 4 - 10);
-        Vector3 pos1 = new Vector3(x, y, -1);
-        //Spawner
-        ZombieType[] zt = new ZombieType[3];
-        zt[0] = ZombieType.Slow_Zombie;
-        zt[1] = ZombieType.Fast_Zombie;
-        zt[2] = ZombieType.Zombie3;
-        x = Functions.RandomNumber(10, MapGenerator.GetMap().GetLength(0) * 4 - 10);
-        y = Functions.RandomNumber(10, MapGenerator.GetMap().GetLength(1) * 4 - 10);
-        Vector3 pos2 = new Vector3(x, y, -1);
-
-        //if (Functions.GetDistance(pos1, pos2) < 100)
-        //{
-        //    Debug.Log($"Position 1: {pos1}, Position 1: {pos2}");
-        //    SetupLocations();
-        //}
-        //else
-        //{
-        //    selectedBuilding = BuildingScript.BuildingPreview("Base");
-        //    BuildingScript.CreateBuilding(selectedBuilding, pos1);
-        //    ZombieScript.CreateMonsterSpawner(pos2, 5, 10, zt);
-        //    selectedBuilding = BuildingScript.BuildingPreview("Turret");
-        //}
-        
+        SetSelected("Base");
     }
 
     // Update is called once per frame
@@ -79,9 +50,9 @@ public class GameController : MonoBehaviour
 
     private void UpdateBuildingPreviewPosition()
     {
-        if (selectedBuilding != null)
+        if (selectedBuilding != null) 
         {
-            Vector3 pos = Functions.FindTilePos();
+            Vector3 pos = Functions.FindTile().transform.position;
             selectedBuilding.transform.position = new Vector3(pos.x, pos.y, 0);
         }
     }
@@ -117,8 +88,8 @@ public class GameController : MonoBehaviour
         //On left click
         if (Input.GetMouseButtonDown(0) && selectedBuilding != null)
         {
-            Vector3 pos = Functions.FindTilePos();
-            BuildingScript.CreateBuilding(selectedBuilding.name, pos);
+            TileScript.Tile tile = Functions.FindTile();
+            BuildingScript.CreateBuilding(selectedBuilding.name, tile);
             Destroy(selectedBuilding);
             selectedBuilding = null;
         }
@@ -133,17 +104,12 @@ public class GameController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(2))
         {
-            Vector3 pos = Input.mousePosition;
-            pos.z = 20;
-            pos = Camera.main.ScreenToWorldPoint(pos);
-            ZombieType[] zt = new ZombieType[2];
-            zt[0] = ZombieType.Fast_Zombie;
-            zt[1] = ZombieType.Slow_Zombie;
-            GameObject go = Resources.Load<GameObject>("Objects/Zombie_Grave");
-            go = Instantiate(go);
-            go.transform.position = pos;
-            //ZombieSpawner spawner =  new ZombieSpawner(10, zt);
-            
+            TileScript.Tile tile = Functions.FindTile();
+            int[] array = tile.GetBuilding().GetStats();
+            foreach(int val in array)
+            {
+                Debug.Log($"Value is: {val}");
+            }
 
         }
         if (Input.GetKeyDown(KeyCode.Escape))

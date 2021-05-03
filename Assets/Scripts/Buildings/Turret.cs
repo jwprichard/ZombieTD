@@ -3,22 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Minigun : MonoBehaviour, IBuilding
+public class Turret : MonoBehaviour, IBuilding
 {
 
-    //Static variables
-    private static int cost = 500;
-    private static int Health = 50;
+    //private GameObject GameObject;
 
-    private float time = 0;
+    private static int Cost = 250;
+    private static int Health = 100;
+    private int Range = 50;
+
     private int BulletSpeed = 30;
-    private float ROF = 10;
-    private int range = 20;
-    private bool Loaded = true;
+    private float ROF = 1;
     SimpleTimer timer;
 
     //Constructor for the tower
-    public Minigun()
+    public Turret()
     {
         timer = new SimpleTimer(1 / ROF * 1000, true);
     }
@@ -38,14 +37,13 @@ public class Minigun : MonoBehaviour, IBuilding
         }
     }
 
-    //Fires a bullet at the closest zombie
+    //Fire a bullet at the closest zombie
     private void FireBullet()
     {
-        Debug.Log($"GameObject is: {gameObject}");
-        GameObject bullet = Resources.Load<GameObject>("Objects/Bullet"); ;
+
+        GameObject bullet = Resources.Load<GameObject>("Objects/Bullet");
         Rigidbody2D rb;
         Vector3 pos = gameObject.transform.GetChild(0).transform.position;
-        Vector3 pos2 = gameObject.transform.GetChild(1).transform.position;
 
         if (FindZombie(gameObject) != null)
         {
@@ -55,18 +53,13 @@ public class Minigun : MonoBehaviour, IBuilding
 
             gameObject.transform.localRotation = Functions.LookAt(gameObject.transform.position, target);
 
-            if (Vector3.Distance(pos, target) < range)
+            if (Vector3.Distance(pos, target) < Range)
             {
                 bullet = Instantiate(bullet);
                 rb = bullet.GetComponent<Rigidbody2D>();
                 bullet.transform.position = new Vector3(pos.x, pos.y, pos.z - 0.2f);
                 bullet.transform.localRotation = Functions.LookAt(pos, target);
                 Vector3 dir = (target - bullet.transform.position).normalized * BulletSpeed;
-                rb.velocity = dir;
-                bullet = Instantiate(bullet);
-                rb = bullet.GetComponent<Rigidbody2D>();
-                bullet.transform.position = new Vector3(pos2.x, pos2.y, pos2.z - 0.2f);
-                bullet.transform.localRotation = Functions.LookAt(pos2, target);
                 rb.velocity = dir;
             }
         }
@@ -114,16 +107,21 @@ public class Minigun : MonoBehaviour, IBuilding
     }
 
     //-------------------Building Interface Functions----------------//
-    void IBuilding.Step()
+    int[] IBuilding.GetStats()
     {
-        CheckTimer();
+        int[] stats = new int[2];
+        stats[0] = Health;
+        stats[1] = Range;
+
+        return stats;
     }
+
     //Return the cost of the Building
     int IBuilding.cost
     {
         get
         {
-            return cost;
+            return Cost;
         }
     }
 

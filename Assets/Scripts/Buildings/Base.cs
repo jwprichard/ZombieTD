@@ -9,8 +9,9 @@ public class Base : MonoBehaviour, IBuilding
 
     private GameObject GameObject;
 
-    private static int cost = 0;
+    private static int Cost = 0;
     private static int Health = 100;
+    private int Range = 0;
 
     public Base(GameObject gameObject)
     {
@@ -36,15 +37,19 @@ public class Base : MonoBehaviour, IBuilding
 
 
     //------------Building Interface Functions---------------//
-    void IBuilding.Step()
+    int[] IBuilding.GetStats()
     {
+        int[] stats = new int[2];
+        stats[0] = Health;
+        stats[1] = Range;
 
+        return stats;
     }
     int IBuilding.cost
     {
         get
         {
-            return cost;
+            return Cost;
         }
     }
 

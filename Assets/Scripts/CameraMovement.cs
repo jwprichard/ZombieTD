@@ -5,24 +5,25 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
 
-    float speed = 1f;
+    float speed = 0.2f;
     static Vector3 position;
-    static Camera camera;
+    static Camera Camera;
 
     // Start is called before the first frame update
     void Start()
     {
 
-        camera = Camera.main;
+        Camera = Camera.main;
         
     }
 
     public static void UpdatePosition()
     {
-        Vector3 pos = new Vector3(MapGenerator.GetMap().GetLength(0) / 2 * 4, MapGenerator.GetMap().GetLength(1) / 2 * 4, camera.transform.position.z);
+        //Vector3 pos = new Vector3(MapGenerator.GetMap().GetLength(0) / 2 * 4, MapGenerator.GetMap().GetLength(1) / 2 * 4, Camera.transform.position.z);
+        Vector3 pos = new Vector3(0, 0, -10);
         position = pos;
-        camera.transform.position = position;
-        camera.fieldOfView = 140;
+        Camera.transform.position = position;
+        Camera.fieldOfView = 140;
 
 
     }
@@ -70,15 +71,15 @@ public class CameraMovement : MonoBehaviour
 
         if (scroll > 0f)
         {
-            if (camera.fieldOfView > 20) { 
-                camera.fieldOfView *= 0.9f;
+            if (Camera.fieldOfView > 20) { 
+                Camera.fieldOfView *= 0.9f;
             }
         }
-        if (camera.fieldOfView < 150)
+        if (Camera.fieldOfView < 150)
         {
             if (scroll < 0f)
             {
-                camera.fieldOfView *= 1.1f;
+                Camera.fieldOfView *= 1.1f;
             }
         }
     }

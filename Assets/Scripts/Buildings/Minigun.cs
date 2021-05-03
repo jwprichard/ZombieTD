@@ -3,22 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArrowTower : MonoBehaviour, IBuilding
+public class Minigun : MonoBehaviour, IBuilding
 {
 
-    //Static Variables
-    private static int cost = 250;
-    private static int Health = 100;
+    //Static variables
+    private static int cost = 500;
+    private static int Health = 50;
+    private int Range = 20;
 
+    private float time = 0;
     private int BulletSpeed = 30;
-    private float ROF = 0.5f;
-    private int range = 100;
-    private SimpleTimer timer;
+    private float ROF = 10;
+    private bool Loaded = true;
+    SimpleTimer timer;
 
     //Constructor for the tower
-    public ArrowTower()
+    public Minigun()
     {
-        timer = new SimpleTimer(1 / ROF * 1000, false);
+        timer = new SimpleTimer(1 / ROF * 1000, true);
     }
 
     //Called once per frame
@@ -36,28 +38,35 @@ public class ArrowTower : MonoBehaviour, IBuilding
         }
     }
 
-    //Fire a bullet at the closest zombie
+    //Fires a bullet at the closest zombie
     private void FireBullet()
     {
-
-        GameObject bullet = Resources.Load<GameObject>("Objects/Arrow"); ;
+        Debug.Log($"GameObject is: {gameObject}");
+        GameObject bullet = Resources.Load<GameObject>("Objects/Bullet"); ;
         Rigidbody2D rb;
-        Vector3 pos = gameObject.transform.GetChild(1).transform.position;
+        Vector3 pos = gameObject.transform.GetChild(0).transform.position;
+        Vector3 pos2 = gameObject.transform.GetChild(1).transform.position;
 
         if (FindZombie(gameObject) != null)
         {
-            bullet.GetComponent<Arrow>().turret = gameObject;
+            GameObject targetGO = FindZombie(gameObject);
+            bullet.GetComponent<Projectiles>().target = targetGO;
             Vector3 target = FindZombie(gameObject).transform.position;
 
             gameObject.transform.localRotation = Functions.LookAt(gameObject.transform.position, target);
 
-            if (Vector3.Distance(pos, target) < range)
+            if (Vector3.Distance(pos, target) < Range)
             {
                 bullet = Instantiate(bullet);
                 rb = bullet.GetComponent<Rigidbody2D>();
                 bullet.transform.position = new Vector3(pos.x, pos.y, pos.z - 0.2f);
                 bullet.transform.localRotation = Functions.LookAt(pos, target);
                 Vector3 dir = (target - bullet.transform.position).normalized * BulletSpeed;
+                rb.velocity = dir;
+                bullet = Instantiate(bullet);
+                rb = bullet.GetComponent<Rigidbody2D>();
+                bullet.transform.position = new Vector3(pos2.x, pos2.y, pos2.z - 0.2f);
+                bullet.transform.localRotation = Functions.LookAt(pos2, target);
                 rb.velocity = dir;
             }
         }
@@ -90,7 +99,6 @@ public class ArrowTower : MonoBehaviour, IBuilding
         return zombie;
     }
 
-    //On collision with tower
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -106,11 +114,14 @@ public class ArrowTower : MonoBehaviour, IBuilding
     }
 
     //-------------------Building Interface Functions----------------//
-    void IBuilding.Step()
+    int[] IBuilding.GetStats()
     {
-        CheckTimer();
-    }
+        int[] stats = new int[2];
+        stats[0] = Health;
+        stats[1] = Range;
 
+        return stats;
+    }
     //Return the cost of the Building
     int IBuilding.cost
     {
@@ -120,7 +131,6 @@ public class ArrowTower : MonoBehaviour, IBuilding
         }
     }
 
-    //Return the health of he Building
     int IBuilding.Health
     {
         get

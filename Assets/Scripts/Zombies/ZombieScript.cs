@@ -13,6 +13,7 @@ public interface ZombieInterface
 public class ZombieScript : MonoBehaviour
 {
     public static Dictionary<GameObject, ZombieInterface> ZombieDictionary = new Dictionary<GameObject, ZombieInterface>();
+    public static ZombieType[] ZombieTypes = new ZombieType[3];
     static int idNum = 0;
 
     public static GameObject CreateZombie(ZombieType type, Vector3 position)
@@ -51,8 +52,11 @@ public class ZombieScript : MonoBehaviour
 
     }
 
-    public static void CreateMonsterSpawner(Vector3 pos, int Frequency, int Strength, ZombieType[] ZombieTypes)
+    public static void CreateMonsterSpawner(Vector3 pos, int Frequency, int Strength)
     {
+        ZombieTypes[0] = ZombieType.Slow_Zombie;
+        ZombieTypes[1] = ZombieType.Fast_Zombie;
+        ZombieTypes[2] = ZombieType.Zombie3;
         GameObject gameObject;
         gameObject = Resources.Load<GameObject>("Objects/Hive");
         gameObject = Instantiate(gameObject);

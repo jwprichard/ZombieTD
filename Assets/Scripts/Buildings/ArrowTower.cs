@@ -3,25 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Turret : MonoBehaviour, IBuilding
+public class ArrowTower : MonoBehaviour, IBuilding
 {
 
-    //private GameObject GameObject;
+    //Static Variables
+    private int Cost = 250;
+    private int Health = 100;
+    private int Range = 0;
 
-    private static int cost = 250;
-    private static int Health = 50;
-
-    private float time = 0;
     private int BulletSpeed = 30;
-    private float ROF = 1;
-    private int range = 50;
-    private bool Loaded = true;
-    SimpleTimer timer;
+    private float ROF = 0.5f;
+    private int range = 100;
+    private SimpleTimer timer;
 
     //Constructor for the tower
-    public Turret()
+    public ArrowTower()
     {
-        timer = new SimpleTimer(1 / ROF * 1000, true);
+        timer = new SimpleTimer(1 / ROF * 1000, false);
     }
 
     //Called once per frame
@@ -43,14 +41,13 @@ public class Turret : MonoBehaviour, IBuilding
     private void FireBullet()
     {
 
-        GameObject bullet = Resources.Load<GameObject>("Objects/Bullet");
+        GameObject bullet = Resources.Load<GameObject>("Objects/Arrow"); ;
         Rigidbody2D rb;
-        Vector3 pos = gameObject.transform.GetChild(0).transform.position;
+        Vector3 pos = gameObject.transform.GetChild(1).transform.position;
 
         if (FindZombie(gameObject) != null)
         {
-            GameObject targetGO = FindZombie(gameObject);
-            bullet.GetComponent<Projectiles>().target = targetGO;
+            bullet.GetComponent<Arrow>().turret = gameObject;
             Vector3 target = FindZombie(gameObject).transform.position;
 
             gameObject.transform.localRotation = Functions.LookAt(gameObject.transform.position, target);
@@ -94,6 +91,7 @@ public class Turret : MonoBehaviour, IBuilding
         return zombie;
     }
 
+    //On collision with tower
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -109,20 +107,24 @@ public class Turret : MonoBehaviour, IBuilding
     }
 
     //-------------------Building Interface Functions----------------//
-    void IBuilding.Step()
+    int[] IBuilding.GetStats()
     {
-        //CheckTimer();
-    }
+        int[] stats = new int[2];
+        stats[0] = Health;
+        stats[1] = Range;
 
+        return stats;
+    }
     //Return the cost of the Building
     int IBuilding.cost
     {
         get
         {
-            return cost;
+            return Cost;
         }
     }
 
+    //Return the health of he Building
     int IBuilding.Health
     {
         get
