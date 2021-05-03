@@ -64,3 +64,6 @@ TagManager:
   - name: Projectiles
     uniqueID: 2626242277
     locked: 0
+  - name: FOW
+    uniqueID: 1958418087
+    locked: 0

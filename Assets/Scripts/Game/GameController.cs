@@ -21,9 +21,9 @@ public class GameController : MonoBehaviour
     void Start()
     {
         MapGenerator.CreateMap(30, 30, 0);
+        
         Camera.main.transform.position = new Vector3(0, 0, -20);
         CameraMovement.UpdatePosition();
-        SetSelected("Base");
     }
 
     // Update is called once per frame
@@ -40,6 +40,14 @@ public class GameController : MonoBehaviour
         UpdateBuildingPreviewPosition();
     }
 
+    //Displays game over text and quits the application
+    private void GameOver()
+    {
+        UI.GameOver();
+        Application.Quit();
+    }
+
+
     //Updates the values in the game bar
     private void UpdateGameBarValues()
     {
@@ -52,16 +60,9 @@ public class GameController : MonoBehaviour
     {
         if (selectedBuilding != null) 
         {
-            Vector3 pos = Functions.FindTile().transform.position;
+            Vector3 pos = Functions.FindMouseTile().transform.position;
             selectedBuilding.transform.position = new Vector3(pos.x, pos.y, 0);
         }
-    }
-
-    //Displays game over text and quits the application
-    private void GameOver()
-    {
-        UI.GameOver();
-        Application.Quit();
     }
 
     //Set the selected object to build
@@ -88,7 +89,7 @@ public class GameController : MonoBehaviour
         //On left click
         if (Input.GetMouseButtonDown(0) && selectedBuilding != null)
         {
-            TileScript.Tile tile = Functions.FindTile();
+            Tile tile = Functions.FindMouseTile();
             BuildingScript.CreateBuilding(selectedBuilding.name, tile);
             Destroy(selectedBuilding);
             selectedBuilding = null;
@@ -104,12 +105,19 @@ public class GameController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(2))
         {
-            TileScript.Tile tile = Functions.FindTile();
-            int[] array = tile.GetBuilding().GetStats();
-            foreach(int val in array)
-            {
-                Debug.Log($"Value is: {val}");
-            }
+            //TileScript.Tile tile = Functions.FindTile();
+            //int[] array = tile.GetBuilding().GetStats();
+            //foreach(int val in array)
+            //{
+            //    Debug.Log($"Value is: {val}");
+            //}
+            //if(TileScript.GetTile(new Vector3(5, 5, 0), out Tile tile))
+            //{
+            //    SpriteRenderer sr = tile.GetComponent<SpriteRenderer>(); //Store the Sprite Renderer
+            //    Color tmp = sr.color; //Store the color
+            //    tmp.a = 0.5f; //Change the alpha
+            //    sr.color = tmp; //Change the color
+            //}
 
         }
         if (Input.GetKeyDown(KeyCode.Escape))

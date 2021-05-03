@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TileScript : MonoBehaviour
 {
-    public static Dictionary<GameObject, Tile> TileDictionary = new Dictionary<GameObject, Tile>();
+    private static Dictionary<Vector3, Tile> TileDictionary = new Dictionary<Vector3, Tile>();
     static int idNum = 0;
 
     public static GameObject CreateTile(string type, int[] location, GameObject parent)
@@ -18,28 +18,19 @@ public class TileScript : MonoBehaviour
         Tile tile = gameObject.AddComponent<Tile>();
         tile.Type = type;
 
-        TileDictionary.Add(gameObject, tile);
+        TileDictionary.Add(gameObject.transform.position, tile);
         return gameObject;
     }
 
-
-
-    public class Tile : MonoBehaviour
+    public static bool GetTile(Vector3 position, out Tile Tile)
     {
-        public string Type { get; set; }
-        private IBuilding Building { get; set; }
-
-        public void SetBuilding(IBuilding building)
+        if(TileDictionary.TryGetValue(position, out Tile))
         {
-            Building = building;
+            return true;
         }
 
-        public IBuilding GetBuilding()
-        {
-            return Building;
-        }
-
-
+        return false;
 
     }
+
 }

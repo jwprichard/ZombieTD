@@ -18,8 +18,8 @@ public static class MapGenerator
         CreateTileMap();
         mapArray = GenerateMapArray(width, height, num_spawners);
         SetTiles(mapArray);
+        PlaceHub();
     }
-
     
     /* 
      * Creates a TileMap and adds it
@@ -38,8 +38,7 @@ public static class MapGenerator
 
         tileMap.tileAnchor = new Vector3(0, 0, 0);
         gameObject.transform.SetParent(map.transform);
-        renderer.sortingLayerName = "Background";
-        
+        renderer.sortingLayerName = "Background";        
 
         return tileMap;
     }
@@ -105,6 +104,15 @@ public static class MapGenerator
                 map.transform.GetComponentInChildren<Tilemap>().SetTile(pos, tile);
                 SetupTile("Tile", i, j);
             }
+        }
+    }
+
+    private static void PlaceHub()
+    {
+        Vector3 HubPosition = new Vector3(mapArray.GetLength(0) / 2, mapArray.GetLength(1) / 2, 0);
+        if(TileScript.GetTile(HubPosition, out Tile tile))
+        {
+            BuildingScript.CreateBuilding("Base", tile);
         }
     }
 

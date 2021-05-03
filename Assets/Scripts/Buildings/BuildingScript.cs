@@ -18,7 +18,7 @@ public class BuildingScript : MonoBehaviour
         return gameObject;
     }
 
-    public static void CreateBuilding(string type, TileScript.Tile tile)
+    public static void CreateBuilding(string type, Tile tile)
     {
 
         try

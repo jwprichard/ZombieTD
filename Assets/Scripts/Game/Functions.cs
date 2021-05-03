@@ -89,13 +89,13 @@ using UnityEngine;
             return rotation;
         }
 
-    public static TileScript.Tile FindTile()
+    public static Tile FindMouseTile()
     {
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            var tile = hit.transform.GetComponent<TileScript.Tile>();
+            var tile = hit.transform.GetComponent<Tile>();
             return tile;        
         }
 
