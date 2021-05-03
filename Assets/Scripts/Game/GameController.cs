@@ -36,7 +36,6 @@ public class GameController : MonoBehaviour
         {
             GameOver();
         }
-        //Functions.FindTilePos();
         UpdateBuildingPreviewPosition();
     }
 
@@ -105,19 +104,8 @@ public class GameController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(2))
         {
-            //TileScript.Tile tile = Functions.FindTile();
-            //int[] array = tile.GetBuilding().GetStats();
-            //foreach(int val in array)
-            //{
-            //    Debug.Log($"Value is: {val}");
-            //}
-            //if(TileScript.GetTile(new Vector3(5, 5, 0), out Tile tile))
-            //{
-            //    SpriteRenderer sr = tile.GetComponent<SpriteRenderer>(); //Store the Sprite Renderer
-            //    Color tmp = sr.color; //Store the color
-            //    tmp.a = 0.5f; //Change the alpha
-            //    sr.color = tmp; //Change the color
-            //}
+            Tile tile = Functions.FindMouseTile();
+            tile.SetTransparency(0.5f);
 
         }
         if (Input.GetKeyDown(KeyCode.Escape))

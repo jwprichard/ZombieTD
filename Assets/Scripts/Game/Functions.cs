@@ -154,4 +154,22 @@ using UnityEngine;
         return distance;
     }
 
+    //Sets the transparency of the fog of war around a specified position
+    public static void SetFogOfWar(Vector3 pos, int range)
+    {
+        Vector3 startPos = new Vector3(pos.x-range, pos.y-range, pos.z);
+        for(int i = 0; i <= range*2; i++)
+        {
+            for(int j = 0; j <= range*2; j++)
+            {
+                Vector3 currentPos = new Vector3(startPos.x + i, startPos.y + j, 0);
+                Debug.Log($"Distance: {GetDistance(currentPos, pos)}");
+                if(Tile.GetTile(currentPos, out Tile tile))
+                {
+                    tile.SetTransparency(1-(1/GetDistance(currentPos, pos)+0.2f)); //Placeholder Value
+                }
+            }
+        }
+    }
+
 }

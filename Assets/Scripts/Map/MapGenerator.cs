@@ -110,10 +110,11 @@ public static class MapGenerator
     private static void PlaceHub()
     {
         Vector3 HubPosition = new Vector3(mapArray.GetLength(0) / 2, mapArray.GetLength(1) / 2, 0);
-        if(TileScript.GetTile(HubPosition, out Tile tile))
+        if(Tile.GetTile(HubPosition, out Tile tile))
         {
             BuildingScript.CreateBuilding("Base", tile);
         }
+        Functions.SetFogOfWar(HubPosition, 5);
     }
 
     static GameObject SetupTile(string type, int x, int y)
@@ -121,7 +122,7 @@ public static class MapGenerator
         int[] loc = new int[2];
         loc[0] = x;
         loc[1] = y;
-        GameObject tile = TileScript.CreateTile(type, loc, map);
+        GameObject tile = Tile.CreateTile(type, loc, map);
         return tile;
     }
 
