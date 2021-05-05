@@ -3,23 +3,65 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Turret : MonoBehaviour, IBuilding
+public class BulletTurret : MonoBehaviour, IBuilding
 {
+    private static readonly int Cost = 250;
+    //Return the cost of the Building
+    int IBuilding.Cost
+    {
+        get
+        {
+            return Cost;
+        }
+    }
 
-    //private GameObject GameObject;
-
-    private static int Cost = 250;
     private static int Health = 100;
+    int IBuilding.Health
+    {
+        get
+        {
+            return Health;
+        }
+
+        set
+        {
+            Health = value;
+        }
+    }
+
     private int Range = 50;
+    int IBuilding.Range
+    {
+        get
+        {
+            return Range;
+        }
+        set
+        {
+            Range = value;
+        }
+    }
+
+    private float ROF = 1;
+    float IBuilding.ROF
+    {
+        get
+        {
+            return ROF;
+        }
+        set
+        {
+            ROF = value;
+        }
+    }
 
     private int BulletSpeed = 30;
-    private float ROF = 1;
-    SimpleTimer timer;
+    SimpleTimer FireTimer;
 
     //Constructor for the tower
-    public Turret()
+    public BulletTurret()
     {
-        timer = new SimpleTimer(1 / ROF * 1000, true);
+        FireTimer = new SimpleTimer(1 / ROF * 1000, true);
     }
 
     //Called once per frame
@@ -30,10 +72,10 @@ public class Turret : MonoBehaviour, IBuilding
 
     private void CheckTimer()
     {
-        if (timer.Finished == true)
+        if (FireTimer.Finished == true)
         {
             FireBullet();
-            timer = new SimpleTimer(1 / ROF * 1000, false);
+            FireTimer = new SimpleTimer(1 / ROF * 1000, false);
         }
     }
 
@@ -114,27 +156,5 @@ public class Turret : MonoBehaviour, IBuilding
         stats[1] = Range;
 
         return stats;
-    }
-
-    //Return the cost of the Building
-    int IBuilding.cost
-    {
-        get
-        {
-            return Cost;
-        }
-    }
-
-    int IBuilding.Health
-    {
-        get
-        {
-            return Health;
-        }
-
-        set
-        {
-            Health = value;
-        }
     }
 }

@@ -52,7 +52,7 @@ public class Mine : MonoBehaviour, IBuilding
         return stats;
     }
     //Return the cost of the Building
-    int IBuilding.cost
+    int IBuilding.Cost
     {
         get
         {

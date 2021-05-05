@@ -114,7 +114,7 @@ public static class MapGenerator
         {
             BuildingScript.CreateBuilding("Base", tile);
         }
-        Functions.SetFogOfWar(HubPosition, 5);
+        //Functions.SetFogOfWar(HubPosition, 5);
     }
 
     static GameObject SetupTile(string type, int x, int y)

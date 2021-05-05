@@ -45,7 +45,7 @@ public class Base : MonoBehaviour, IBuilding
 
         return stats;
     }
-    int IBuilding.cost
+    int IBuilding.Cost
     {
         get
         {

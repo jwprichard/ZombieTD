@@ -5,6 +5,8 @@ using UnityEngine;
 public interface IBuilding
 {
     int[] GetStats();
-    int cost { get; }
+    int Cost { get; }
     int Health { get; set; }
+    int Range { get; set; }
+    float ROF { get; set; }
 }

@@ -29,14 +29,14 @@ public class BuildingScript : MonoBehaviour
             go = Instantiate(go);
             go.name = type + idNum;
             building = GetBuilding(type, go);
-            if (building.cost > GameController.GetMoney())
+            if (building.Cost > GameController.GetMoney())
             {
-                Debug.Log($"Building: {go.name}, Cost: {building.cost}");
+                Debug.Log($"Building: {go.name}, Cost: {building.Cost}");
                 Destroy(go);
                 throw new System.Exception("Not Enough Money!");
             }
 
-            GameController.AdjustMoney(-building.cost);
+            GameController.AdjustMoney(-building.Cost);
             BuildingDictionary.Add(go, building);
 
             tile.SetBuilding(building);
@@ -57,7 +57,7 @@ public class BuildingScript : MonoBehaviour
         {
             "Base" => gameObject.AddComponent<Base>(),
             "Mine" => gameObject.AddComponent<Mine>(),
-            "Turret" => gameObject.AddComponent<Turret>(),
+            "Turret" => gameObject.AddComponent<BulletTurret>(),
             "Minigun" => gameObject.AddComponent<Minigun>(),
             "ArrowTower" => gameObject.AddComponent<ArrowTower>(),
             _ => throw new System.Exception($"Building '{building}' not found!"),
